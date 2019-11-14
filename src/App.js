@@ -9,7 +9,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    const confFile = '/public/config.json'
+    const confFile = './public/config.json'
     fetch(confFile)
       .then(response => {
         return response.json();
