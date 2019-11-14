@@ -1,26 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import CitySelectorContainer from './components/CitySelectorContainer'
+import CurrentWeatherContainer from './components/CurrentWeatherContainer'
+
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    const confFile = '/public/config.json'
+    fetch(confFile)
+      .then(response => {
+        return response.json();
+      })
+      .then(jsonData => {
+        this.props.loadCities(jsonData.cities)
+        this.props.loadApiData(jsonData.api_data)
+      })
+      .catch (error =>  {
+        alert('Error: not found: '+ confFile)
+        console.log(error);
+      })
+  }
+
+  render() {
+    // console.log(this.props);
+    return (
+      <div className=''>
+        <CitySelectorContainer />
+        <CurrentWeatherContainer />
+      </div>
+    );
+  }
 }
 
-export default App;
